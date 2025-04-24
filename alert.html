@@ -53,7 +53,7 @@
 
     database.ref("donations").on("child_added", (snapshot) => {
       const data = snapshot.val();
-      donationText.innerText = `💖 ${data.name} โดเนท ${data.amount} บาท\n"${data.text || ''}"`;
+      donationText.innerText = `🤑💰💹 ${data.name} โดเนท ${data.amount} บาท\n"${data.text || ''}"`;
       alertBox.style.display = "block";
 
       setTimeout(() => {
