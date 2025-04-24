@@ -1,26 +1,23 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Donation Alert</title>
   <style>
-    body {
-      margin: 0;
-      font-family: 'Itim', cursive;
-      background: transparent;
-    }
     .alert-box {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: rgba(0, 0, 0, 0.8);
-      color: #fff;
-      padding: 30px 40px;
-      border-radius: 20px;
-      font-size: 28px;
-      display: none;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 20px;
+      display: none; /* Hide by default */
+    }
+    .donation-text {
       text-align: center;
     }
   </style>
@@ -30,34 +27,43 @@
     <p id="donation-message"></p>
   </div>
 
-  <!-- ✅ Firebase Classic CDN -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+  <script type="module">
+    // Import the necessary Firebase functions
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getDatabase, ref, onChildAdded } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
 
-  <script>
+    // Your Firebase configuration
     const firebaseConfig = {
-      apiKey: "AIzaSyCPOgTSfuUh4p1APTZilBi3oIlBfPHwC4Y",
-      authDomain: "donate-to-liz0.firebaseapp.com",
-      databaseURL: "https://donate-to-liz0-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "donate-to-liz0",
-      storageBucket: "donate-to-liz0.firebasestorage.app",
-      messagingSenderId: "99773670489",
-      appId: "1:99773670489:web:f3f6008c23d65454e2fd48"
+      apiKey: "AIzaSyCzrFwEPXJx6RsuiJPt48TMd6YwTr8bno0",
+      authDomain: "donation-liz0.firebaseapp.com",
+      databaseURL: "https://donation-liz0-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "donation-liz0",
+      storageBucket: "donation-liz0.firebasestorage.app",
+      messagingSenderId: "471861664830",
+      appId: "1:471861664830:web:cedf5d595ede7046cf456f"
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
 
-    const alertBox = document.getElementById("alert-box");
-    const donationMessage = document.getElementById("donation-message");
+    // Reference to the donations path in Firebase Database
+    const donationsRef = ref(database, 'donations');
 
-    db.ref("donations").on("child_added", (snapshot) => {
+    // Listen for new donations
+    onChildAdded(donationsRef, (snapshot) => {
       const donation = snapshot.val();
-      const message = `🤑 ${donation.name} โดเนท ${donation.amount} บาท!\n"${donation.text || ''}"`;
+      const message = `🤑💰💹 ${donation.name} โดเนทให้ ${donation.amount} บาท!\n"${donation.text || ''}"`;
 
+      // Get the alert box and donation message elements
+      const alertBox = document.getElementById("alert-box");
+      const donationMessage = document.getElementById("donation-message");
+
+      // Display the donation message
       donationMessage.innerText = message;
       alertBox.style.display = "block";
 
+      // Hide the alert box after 5 seconds
       setTimeout(() => {
         alertBox.style.display = "none";
       }, 5000);
