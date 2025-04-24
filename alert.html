@@ -1,73 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Donation Alert</title>
   <style>
-    .alert-box {
-      position: fixed;
-      top: 50%;
+    body {
+      margin: 0;
+      background: transparent;
+      overflow: hidden;
+      font-family: "Itim", cursive;
+    }
+    #alert-box {
+      position: absolute;
+      top: 30%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.7);
       color: white;
-      padding: 20px;
-      border-radius: 10px;
-      font-size: 20px;
-      display: none; /* Hide by default */
+      padding: 30px;
+      border-radius: 20px;
+      font-size: 2em;
+      display: none;
+      animation: fadeInOut 5s ease-in-out forwards;
     }
-    .donation-text {
-      text-align: center;
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+      10% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      90% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
     }
   </style>
 </head>
 <body>
-  <div class="alert-box" id="alert-box">
-    <p id="donation-message"></p>
-  </div>
+  <div id="alert-box"></div>
 
+  <!-- Firebase SDK แบบ module -->
   <script type="module">
-    // Import Firebase SDKs
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
     import { getDatabase, ref, onChildAdded } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
-    // Firebase configuration
     const firebaseConfig = {
-      apiKey: "AIzaSyCPOgTSfuUh4p1APTZilBi3oIlBfPHwC4Y",
-      authDomain: "donate-to-liz0.firebaseapp.com",
-      databaseURL: "https://donate-to-liz0-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "donate-to-liz0",
-      storageBucket: "donate-to-liz0.firebasestorage.app",
-      messagingSenderId: "99773670489",
-      appId: "1:99773670489:web:f3f6008c23d65454e2fd48",
-      measurementId: "G-HTS1HRRJDB"
+      apiKey: "AIzaSyCzrFwEPXJx6RsuiJPt48TMd6YwTr8bno0",
+      authDomain: "donation-liz0.firebaseapp.com",
+      databaseURL: "https://donation-liz0-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "donation-liz0",
+      storageBucket: "donation-liz0.firebasestorage.app",
+      messagingSenderId: "471861664830",
+      appId: "1:471861664830:web:cedf5d595ede7046cf456f"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
-    // Reference to your donations data in Firebase
-    const donationsRef = ref(database, "donations");
+    const alertBox = document.getElementById("alert-box");
 
-    // Listen for new donations added to the Firebase database
-    onChildAdded(donationsRef, (snapshot) => {
+    onChildAdded(ref(database, 'donations'), (snapshot) => {
       const donation = snapshot.val();
-      const message = `🤑💰💹 ${donation.name} โดเนทให้ ${donation.amount} บาท!\n"${donation.text || ''}"`;
+      showAlert(donation.name, donation.amount, donation.text);
+    });
 
-      // Display the donation message in the alert box
-      const alertBox = document.getElementById("alert-box");
-      const donationMessage = document.getElementById("donation-message");
-
-      donationMessage.innerText = message;
+    function showAlert(name, amount, text) {
+      alertBox.textContent = `${name} โดเนท ${amount} บาท 💸\n${text || ''}`;
       alertBox.style.display = "block";
 
-      // Hide the alert box after 5 seconds
+      // รีเซ็ต animation เพื่อให้แสดงใหม่ทุกครั้ง
+      alertBox.style.animation = "none";
+      void alertBox.offsetWidth; // trick
+      alertBox.style.animation = null;
+
       setTimeout(() => {
         alertBox.style.display = "none";
-      }, 5000);
-    });
+      }, 5000); // ซ่อนหลัง 5 วินาที
+    }
   </script>
 </body>
 </html>

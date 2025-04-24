@@ -1,114 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donation to LiZ0</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Itim&family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
-    <style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donation to LiZ0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Itim&family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+  <style>
     .sarabun-semibold {
       font-family: "Sarabun", sans-serif;
       font-weight: 600;
       font-style: normal;
     }
-    *{
+    * {
       font-family: "Itim", cursive;
       font-weight: 400;
       font-style: normal;
     }
     body {
-        background-image: url('https://github.com/nititorn007/donate-to-liz0/blob/main/puth.png?raw=true');
-        background-color: #f0f0f0;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
+      background-image: url('https://github.com/nititorn007/donate-to-liz0/blob/main/puth.png?raw=true');
+      background-color: #f0f0f0;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
     }
     .form-container {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        padding: 40px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        width: 680px;
-        max-width: 90%;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      width: 680px;
+      max-width: 90%;
     }
     h1 {
-        color: #fff;
-        text-align: center;
-        margin-bottom: 40px;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 40px;
     }
     .inputarea {
-        position: relative;
-        height: 80px;
-        margin-bottom: 30px;
+      position: relative;
+      height: 80px;
+      margin-bottom: 30px;
     }
     .input {
-        width: 90%;
-        font-size: 1.8em;
-        line-height: 80px;
-        padding: 0 30px;
-        position: absolute;
-        background-color: transparent;
-        border: 2px solid rgb(255, 255, 255);
-        border-radius: 10px;
-        outline: none;
-        color: mintcream;
-        transition: 0.3s ease-in-out;
-        z-index: 1;
+      width: 90%;
+      font-size: 1.8em;
+      line-height: 80px;
+      padding: 0 30px;
+      position: absolute;
+      background-color: transparent;
+      border: 2px solid rgb(255, 255, 255);
+      border-radius: 10px;
+      outline: none;
+      color: mintcream;
+      transition: 0.3s ease-in-out;
+      z-index: 1;
     }
     .inputlbl {
-        font-size: 1.6em;
-        position: absolute;
-        top: 30%;
-        color: rgb(255, 255, 255);
-        padding: 0 20px;
-        margin: 0 20px;
-        background-color: transparent;
-        border-radius: 10px;
-        transition: 0.3s ease;
-        pointer-events: none;
+      font-size: 1.6em;
+      position: absolute;
+      top: 30%;
+      color: rgb(255, 255, 255);
+      padding: 0 20px;
+      margin: 0 20px;
+      background-color: transparent;
+      border-radius: 10px;
+      transition: 0.3s ease;
+      pointer-events: none;
     }
     .input:focus {
-        border: 3px solid mintcream;
+      border: 3px solid mintcream;
     }
     .input:focus + .inputlbl,
     .input:not(:placeholder-shown) + .inputlbl {
-        color: mintcream;
-        height: 30px;
-        line-height: 30px;
-        background-color: black;
-        transform: translate(-10px, -40px) scale(0.85);
-        z-index: 2;
+      color: mintcream;
+      height: 30px;
+      line-height: 30px;
+      background-color: black;
+      transform: translate(-10px, -40px) scale(0.85);
+      z-index: 2;
     }
     input[type="submit"] {
-        width: 100%;
-        padding: 15px;
-        font-size: 1.5em;
-        border-radius: 10px;
-        border: none;
-        background-color: #4CAF50;
-        color: white;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
+      width: 100%;
+      padding: 15px;
+      font-size: 1.5em;
+      border-radius: 10px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
     }
     input[type="submit"]:hover {
-        background-color: #45a049;
+      background-color: #45a049;
     }
-    .bottom{
+    .bottom {
       position: absolute;
       top: 6px;
       width: 100%;
       backdrop-filter: blur(10px);
       background-color: transparent;
     }
-    .readme{
+    .readme {
       color: white;
       animation-name: FColor;
       animation-duration: 5s;
@@ -116,83 +116,81 @@
       animation-timing-function: ease-in-out;
     }
     @keyframes FColor {
-      0%{color: rgb(48, 28, 28);}
-      25%{color: #00ffc3;}
-      50%{color: rgb(0, 92, 92);}
-      75%{color: rgb(218, 178, 255);}
-      100%{color: rgb(48, 28, 28);}
+      0% {color: rgb(48, 28, 28);}
+      25% {color: #00ffc3;}
+      50% {color: rgb(0, 92, 92);}
+      75% {color: rgb(218, 178, 255);}
+      100% {color: rgb(48, 28, 28);}
     }
-    </style>
+  </style>
 </head>
 <body>
-    <div class="form-container">
-        <h1>บริจาคให้ LiZ0</h1>
-        <form id="donation-form">
-            <div class="inputarea">
-                <input type="text" name="name" class="input" placeholder=" " required>
-                <label class="inputlbl">ชื่อ</label>
-            </div>
-            <div class="inputarea">
-                <input type="number" name="amount" class="input" placeholder=" " required>
-                <label class="inputlbl">จำนวนเงิน</label>
-            </div>
-            <div class="inputarea">
-                <input type="text" name="text" class="input" placeholder=" ">
-                <label class="inputlbl">ข้อความโดเนท</label>
-            </div>
-            <input type="submit" value="โดเนท">
-        </form>
-    </div>
-    <div class="bottom">
-      <div class="readme">
-        <marquee><span class="sarabun-semibold">
-          This is a fake donation website (no money taken). นี่คือเว็บไซต์การบริจาคปลอม(ไม่เก็บตัง)
-        </span></marquee>
+  <div class="form-container">
+    <h1>บริจาคให้ LiZ0</h1>
+    <form id="donation-form">
+      <div class="inputarea">
+        <input type="text" name="name" class="input" placeholder=" " required>
+        <label class="inputlbl">ชื่อ</label>
       </div>
+      <div class="inputarea">
+        <input type="number" name="amount" class="input" placeholder=" " required>
+        <label class="inputlbl">จำนวนเงิน</label>
+      </div>
+      <div class="inputarea">
+        <input type="text" name="text" class="input" placeholder=" ">
+        <label class="inputlbl">ข้อความโดเนท</label>
+      </div>
+      <input type="submit" value="โดเนท">
+    </form>
+  </div>
+  <div class="bottom">
+    <div class="readme">
+      <marquee><span class="sarabun-semibold">
+        This is a fake donation website (no money taken). นี่คือเว็บไซต์การบริจาคปลอม(ไม่เก็บตัง)
+      </span></marquee>
     </div>
+  </div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
-    <script>
-      // Your Firebase Config
-      const firebaseConfig = {
-        apiKey: "AIzaSyCPOgTSfuUh4p1APTZilBi3oIlBfPHwC4Y",
-        authDomain: "donate-to-liz0.firebaseapp.com",
-        databaseURL: "https://donate-to-liz0-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "donate-to-liz0",
-        storageBucket: "donate-to-liz0.firebasestorage.app",
-        messagingSenderId: "99773670489",
-        appId: "1:99773670489:web:f3f6008c23d65454e2fd48"
-      };
+  <!-- Firebase SDK แบบ module -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
-      // Initialize Firebase
-      const app = firebase.initializeApp(firebaseConfig);
-      const database = firebase.database();
+    const firebaseConfig = {
+      apiKey: "AIzaSyCzrFwEPXJx6RsuiJPt48TMd6YwTr8bno0",
+      authDomain: "donation-liz0.firebaseapp.com",
+      databaseURL: "https://donation-liz0-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "donation-liz0",
+      storageBucket: "donation-liz0.firebasestorage.app",
+      messagingSenderId: "471861664830",
+      appId: "1:471861664830:web:cedf5d595ede7046cf456f"
+    };
 
-      // Handle form submit
-      document.getElementById('donation-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const name = e.target.name.value;
-        const amount = e.target.amount.value;
-        const text = e.target.text.value;
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
 
-        // Push to Firebase
-        database.ref('donations').push({
-          name: name,
-          amount: amount,
-          text: text,
-          timestamp: Date.now()
-        })
-        .then(() => {
-          alert('ขอบคุณสำหรับการโดเนท!');
-          e.target.reset();
-        })
-        .catch(err => {
-          console.error(err);
-          alert('เกิดข้อผิดพลาด ลองใหม่อีกครั้ง');
-        });
+    document.getElementById('donation-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = e.target.name.value;
+      const amount = parseFloat(e.target.amount.value);
+      const text = e.target.text.value;
+
+      push(ref(database, 'donations'), {
+        name,
+        amount,
+        text,
+        timestamp: Date.now()
+      })
+      .then(() => {
+        alert('ขอบคุณสำหรับการโดเนท!');
+        e.target.reset();
+      })
+      .catch((err) => {
+        console.error(err);
+        alert('เกิดข้อผิดพลาด ลองใหม่อีกครั้ง');
       });
-    </script>
+    });
+  </script>
 </body>
 </html>
