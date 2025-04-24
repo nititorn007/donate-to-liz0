@@ -27,33 +27,33 @@
     <p id="donation-message"></p>
   </div>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
   <script type="module">
+    // Import Firebase SDKs
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getDatabase, ref, onChildAdded } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
     // Firebase configuration
     const firebaseConfig = {
-      apiKey: "AIzaSyCzrFwEPXJx6RsuiJPt48TMd6YwTr8bno0",
-      authDomain: "donation-liz0.firebaseapp.com",
-      databaseURL: "https://donation-liz0-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "donation-liz0",
-      storageBucket: "donation-liz0.firebasestorage.app",
-      messagingSenderId: "471861664830",
-      appId: "1:471861664830:web:cedf5d595ede7046cf456f"
+      apiKey: "AIzaSyCPOgTSfuUh4p1APTZilBi3oIlBfPHwC4Y",
+      authDomain: "donate-to-liz0.firebaseapp.com",
+      databaseURL: "https://donate-to-liz0-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "donate-to-liz0",
+      storageBucket: "donate-to-liz0.firebasestorage.app",
+      messagingSenderId: "99773670489",
+      appId: "1:99773670489:web:f3f6008c23d65454e2fd48",
+      measurementId: "G-HTS1HRRJDB"
     };
 
     // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
 
     // Reference to your donations data in Firebase
-    const donationsRef = database.ref('donations');
+    const donationsRef = ref(database, "donations");
 
     // Listen for new donations added to the Firebase database
-    donationsRef.on('child_added', (snapshot) => {
+    onChildAdded(donationsRef, (snapshot) => {
       const donation = snapshot.val();
-      console.log('Donation received:', donation); // Debugging line
-
       const message = `🤑💰💹 ${donation.name} โดเนทให้ ${donation.amount} บาท!\n"${donation.text || ''}"`;
 
       // Display the donation message in the alert box
