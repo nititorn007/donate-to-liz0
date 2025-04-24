@@ -27,12 +27,11 @@
     <p id="donation-message"></p>
   </div>
 
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
   <script type="module">
-    // Import the necessary Firebase functions
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import { getDatabase, ref, onChildAdded } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
-
-    // Your Firebase configuration
+    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyCzrFwEPXJx6RsuiJPt48TMd6YwTr8bno0",
       authDomain: "donation-liz0.firebaseapp.com",
@@ -44,22 +43,23 @@
     };
 
     // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
 
-    // Reference to the donations path in Firebase Database
-    const donationsRef = ref(database, 'donations');
+    // Reference to your donations data in Firebase
+    const donationsRef = database.ref('donations');
 
-    // Listen for new donations
-    onChildAdded(donationsRef, (snapshot) => {
+    // Listen for new donations added to the Firebase database
+    donationsRef.on('child_added', (snapshot) => {
       const donation = snapshot.val();
+      console.log('Donation received:', donation); // Debugging line
+
       const message = `🤑💰💹 ${donation.name} โดเนทให้ ${donation.amount} บาท!\n"${donation.text || ''}"`;
 
-      // Get the alert box and donation message elements
+      // Display the donation message in the alert box
       const alertBox = document.getElementById("alert-box");
       const donationMessage = document.getElementById("donation-message");
 
-      // Display the donation message
       donationMessage.innerText = message;
       alertBox.style.display = "block";
 
