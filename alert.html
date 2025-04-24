@@ -7,73 +7,61 @@
   <style>
     body {
       margin: 0;
+      font-family: 'Itim', cursive;
       background: transparent;
-      overflow: hidden;
-      font-family: "Itim", cursive;
     }
-    #alert-box {
-      position: absolute;
-      top: 30%;
+    .alert-box {
+      position: fixed;
+      top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: 30px;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 30px 40px;
       border-radius: 20px;
-      font-size: 2em;
+      font-size: 28px;
       display: none;
-      animation: fadeInOut 5s ease-in-out forwards;
-    }
-
-    @keyframes fadeInOut {
-      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-      10% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-      90% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-      100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <div id="alert-box"></div>
+  <div class="alert-box" id="alert-box">
+    <p id="donation-message"></p>
+  </div>
 
-  <!-- Firebase SDK แบบ module -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { getDatabase, ref, onChildAdded } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+  <!-- ✅ Firebase Classic CDN -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
 
+  <script>
     const firebaseConfig = {
-      apiKey: "AIzaSyCzrFwEPXJx6RsuiJPt48TMd6YwTr8bno0",
-      authDomain: "donation-liz0.firebaseapp.com",
-      databaseURL: "https://donation-liz0-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "donation-liz0",
-      storageBucket: "donation-liz0.firebasestorage.app",
-      messagingSenderId: "471861664830",
-      appId: "1:471861664830:web:cedf5d595ede7046cf456f"
+      apiKey: "AIzaSyCPOgTSfuUh4p1APTZilBi3oIlBfPHwC4Y",
+      authDomain: "donate-to-liz0.firebaseapp.com",
+      databaseURL: "https://donate-to-liz0-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "donate-to-liz0",
+      storageBucket: "donate-to-liz0.firebasestorage.app",
+      messagingSenderId: "99773670489",
+      appId: "1:99773670489:web:f3f6008c23d65454e2fd48"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
     const alertBox = document.getElementById("alert-box");
+    const donationMessage = document.getElementById("donation-message");
 
-    onChildAdded(ref(database, 'donations'), (snapshot) => {
+    db.ref("donations").on("child_added", (snapshot) => {
       const donation = snapshot.val();
-      showAlert(donation.name, donation.amount, donation.text);
-    });
+      const message = `🤑 ${donation.name} โดเนท ${donation.amount} บาท!\n"${donation.text || ''}"`;
 
-    function showAlert(name, amount, text) {
-      alertBox.textContent = `${name} โดเนท ${amount} บาท 💸\n${text || ''}`;
+      donationMessage.innerText = message;
       alertBox.style.display = "block";
-
-      // รีเซ็ต animation เพื่อให้แสดงใหม่ทุกครั้ง
-      alertBox.style.animation = "none";
-      void alertBox.offsetWidth; // trick
-      alertBox.style.animation = null;
 
       setTimeout(() => {
         alertBox.style.display = "none";
-      }, 5000); // ซ่อนหลัง 5 วินาที
-    }
+      }, 5000);
+    });
   </script>
 </body>
 </html>
