@@ -28,34 +28,42 @@
   </div>
 
   <script type="module">
+    // Import Firebase SDKs
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
     import { getDatabase, ref, onChildAdded } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
+    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyCPOgTSfuUh4p1APTZilBi3oIlBfPHwC4Y",
       authDomain: "donate-to-liz0.firebaseapp.com",
       databaseURL: "https://donate-to-liz0-default-rtdb.asia-southeast1.firebasedatabase.app",
       projectId: "donate-to-liz0",
-      storageBucket: "donate-to-liz0.appspot.com",
+      storageBucket: "donate-to-liz0.firebasestorage.app",
       messagingSenderId: "99773670489",
       appId: "1:99773670489:web:f3f6008c23d65454e2fd48",
       measurementId: "G-HTS1HRRJDB"
     };
 
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
+
+    // Reference to your donations data in Firebase
     const donationsRef = ref(database, "donations");
 
+    // Listen for new donations added to the Firebase database
     onChildAdded(donationsRef, (snapshot) => {
       const donation = snapshot.val();
       const message = `🤑💰💹 ${donation.name} โดเนทให้ ${donation.amount} บาท!\n"${donation.text || ''}"`;
 
+      // Display the donation message in the alert box
       const alertBox = document.getElementById("alert-box");
       const donationMessage = document.getElementById("donation-message");
 
       donationMessage.innerText = message;
       alertBox.style.display = "block";
 
+      // Hide the alert box after 5 seconds
       setTimeout(() => {
         alertBox.style.display = "none";
       }, 5000);
