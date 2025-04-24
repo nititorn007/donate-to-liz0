@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fake Donation Form</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 30px;
+    }
+    input, textarea {
+      display: block;
+      margin-bottom: 15px;
+      width: 300px;
+      padding: 8px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>🎁 Fake Donation Form</h2>
+  <form id="donateForm">
+    <input type="text" placeholder="Name" id="name" required />
+    <input type="number" placeholder="Amount ($)" id="amount" required />
+    <textarea placeholder="Message" id="text" required></textarea>
+    <button type="submit">Send Donation</button>
+  </form>
+
+  <script>
+    const form = document.getElementById("donateForm");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const amount = document.getElementById("amount").value;
+      const text = document.getElementById("text").value;
+      const url = `alert.html?name=${encodeURIComponent(name)}&amount=${encodeURIComponent(amount)}&text=${encodeURIComponent(text)}`;
+      window.open(url, "_blank", "width=800,height=300");
+    });
+  </script>
+</body>
+</html>
