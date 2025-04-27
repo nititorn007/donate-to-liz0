@@ -58,16 +58,13 @@
     const donationText = document.getElementById('donationText');
     const donationSound = document.getElementById('donationSound');
 
-    // TTS queue control
-    let isSpeaking = false;
-
     database.ref("donations").on("child_added", (snapshot) => {
       const data = snapshot.val();
-
+      
       // Set the donation text to display
       const donationMessage = `🤑💰💹 ${data.name} โดเนท ${data.amount} บาท\n"${data.text || ''}"`;
       donationText.innerText = donationMessage;
-
+      
       // Show the alert box
       alertBox.style.display = "block";
 
@@ -75,29 +72,26 @@
       donationSound.currentTime = 0;
       donationSound.play();
 
-      // Wait for the donation sound to finish (2 seconds), then start TTS
-      donationSound.onended = function() {
-        // Function to speak the donation message using TTS
-        const utterance = new SpeechSynthesisUtterance(donationMessage);
-        utterance.lang = 'th-TH'; // Set language to Thai
-        utterance.rate = 1.0; // Speed of speech
+      // Function to speak the donation message using TTS
+      const utterance = new SpeechSynthesisUtterance(data.text || ""); // Only speak the text
+      utterance.lang = 'th-TH'; // Set language to Thai
+      utterance.rate = 1.0; // Speed of speech
 
-        // Handle TTS errors
-        utterance.onerror = (event) => {
-          console.error("Speech synthesis error:", event.error);
-          alert("Sorry, speech synthesis failed.");
-        };
-
-        speechSynthesis.speak(utterance);
-
-        // Wait until TTS finishes before hiding the alert box
-        utterance.onend = () => {
-          setTimeout(() => {
-            alertBox.style.display = "none";
-            isSpeaking = false;  // Allow next TTS message to be spoken
-          }, 5000);  // Keep the alert box visible for 5 seconds after TTS finishes
-        };
+      // Handle TTS errors
+      utterance.onerror = (event) => {
+        console.error("Speech synthesis error:", event.error);
+        alert("Sorry, speech synthesis failed.");
       };
+
+      // Speak the donation text after the sound finishes
+      setTimeout(() => {
+        speechSynthesis.speak(utterance);
+      }, 2000); // Wait for 2 seconds (same duration as donation sound)
+
+      // Hide the alert box after 5 seconds
+      setTimeout(() => {
+        alertBox.style.display = "none";
+      }, 5000);
     });
   </script>
 </body>
