@@ -21,6 +21,8 @@
       border-radius: 15px;
       display: none;
       font-family: sans-serif;
+      text-align: center;
+      white-space: pre-line;
     }
   </style>
 </head>
@@ -56,40 +58,58 @@
     const donationText = document.getElementById('donationText');
     const donationSound = document.getElementById('donationSound');
 
-    // Queue
-    let donationQueue = [];
+    // Queue system
+    const queue = [];
     let isPlaying = false;
+    const startTime = Date.now(); // เวลาเปิดหน้านี้
 
-    function playNextDonation() {
-      if (donationQueue.length === 0) {
-        isPlaying = false;
-        return;
+    // ดึงโดเนทใหม่เข้า Queue
+    database.ref("donations").on("child_added", (snapshot) => {
+      const data = snapshot.val();
+      if (data.timestamp && data.timestamp >= startTime) {
+        queue.push(data);
+        processQueue();
       }
+    });
 
+    function processQueue() {
+      if (isPlaying || queue.length === 0) return;
+      
       isPlaying = true;
-      const data = donationQueue.shift(); // เอาอันแรกออกมา
+      const data = queue.shift();
 
+      // โชว์ข้อความบนจอ
       donationText.innerText = `🤑💰💹 ${data.name} โดเนท ${data.amount} บาท\n"${data.text || ''}"`;
       alertBox.style.display = "block";
+
+      // เล่นเสียงแจ้งเตือน
       donationSound.currentTime = 0;
       donationSound.play();
 
-      setTimeout(() => {
-        alertBox.style.display = "none";
-        // หลังจากแสดงผลเสร็จ เรียกตัวเองต่อ
-        playNextDonation();
-      }, 5000); // เวลาโชว์ 5 วิ
+      // อ่านแค่ข้อความ (Text-to-Speech)
+      if (data.text) {
+        const utterance = new SpeechSynthesisUtterance(data.text);
+        utterance.lang = 'th-TH'; // ตั้งภาษาไทย
+        utterance.rate = 1.0; // ความเร็ว
+        speechSynthesis.speak(utterance);
+
+        // รอจนกว่าจะอ่านเสร็จแล้วไปอันต่อไป
+        utterance.onend = () => {
+          endAlert();
+        };
+      } else {
+        // ถ้าไม่มีข้อความ ก็รอ 5 วิแล้วไปต่อ
+        setTimeout(() => {
+          endAlert();
+        }, 5000);
+      }
     }
 
-    // ฟังข้อมูลใหม่
-    database.ref("donations").on("child_added", (snapshot) => {
-      const data = snapshot.val();
-      donationQueue.push(data);
-
-      if (!isPlaying) {
-        playNextDonation();
-      }
-    });
+    function endAlert() {
+      alertBox.style.display = "none";
+      isPlaying = false;
+      processQueue();
+    }
   </script>
 </body>
 </html>
