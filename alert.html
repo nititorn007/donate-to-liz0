@@ -21,6 +21,8 @@
       border-radius: 15px;
       display: none;
       font-family: sans-serif;
+      text-align: center;
+      white-space: pre-line;
     }
   </style>
 </head>
@@ -56,18 +58,55 @@
     const donationText = document.getElementById('donationText');
     const donationSound = document.getElementById('donationSound');
 
+    // TTS queue control
+    let isSpeaking = false;
+
     database.ref("donations").on("child_added", (snapshot) => {
       const data = snapshot.val();
-      donationText.innerText = `🤑💰💹 ${data.name} โดเนท ${data.amount} บาท\n"${data.text || ''}"`;
+
+      // Set the donation text to display
+      const donationMessage = `🤑💰💹 ${data.name} โดเนท ${data.amount} บาท\n"${data.text || ''}"`;
+      donationText.innerText = donationMessage;
+
+      // Show the alert box
       alertBox.style.display = "block";
 
-      // เล่นเสียง
+      // Play donation sound
       donationSound.currentTime = 0;
       donationSound.play();
 
-      setTimeout(() => {
-        alertBox.style.display = "none";
-      }, 5000);
+      // Function to speak the donation message using TTS
+      if (!isSpeaking) {
+        isSpeaking = true;
+
+        const utterance = new SpeechSynthesisUtterance(donationMessage);
+        utterance.lang = 'th-TH'; // Set language to Thai
+        utterance.rate = 1.0; // Speed of speech
+
+        // Handle TTS errors
+        utterance.onerror = (event) => {
+          console.error("Speech synthesis error:", event.error);
+          alert("Sorry, speech synthesis failed.");
+        };
+
+        speechSynthesis.speak(utterance);
+
+        // Wait until TTS finishes before moving on
+        utterance.onend = () => {
+          // Hide the alert box after 5 seconds
+          setTimeout(() => {
+            alertBox.style.display = "none";
+            isSpeaking = false;  // Allow next TTS message to be spoken
+          }, 5000);
+        };
+      } else {
+        // If TTS is speaking, delay the display of new donation
+        setTimeout(() => {
+          donationSound.currentTime = 0;
+          donationSound.play();
+          alertBox.style.display = "none";
+        }, 5000);  // Match this delay with the length of your TTS
+      }
     });
   </script>
 </body>
