@@ -21,8 +21,6 @@
       border-radius: 15px;
       display: none;
       font-family: sans-serif;
-      text-align: center;
-      white-space: pre-line;
     }
   </style>
 </head>
@@ -60,25 +58,13 @@
 
     database.ref("donations").on("child_added", (snapshot) => {
       const data = snapshot.val();
-      
-      // Set the donation text to display
-      const donationMessage = `🤑💰💹 ${data.name} โดเนท ${data.amount} บาท\n"${data.text || ''}"`;
-      donationText.innerText = donationMessage;
-      
-      // Show the alert box
+      donationText.innerText = `🤑💰💹 ${data.name} โดเนท ${data.amount} บาท\n"${data.text || ''}"`;
       alertBox.style.display = "block";
 
-      // Play donation sound
+      // เล่นเสียง
       donationSound.currentTime = 0;
       donationSound.play();
 
-      // Function to speak the donation message using TTS
-      const utterance = new SpeechSynthesisUtterance(donationMessage);
-      utterance.lang = 'th-TH'; // Set language to Thai
-      utterance.rate = 1.0; // Speed of speech
-      speechSynthesis.speak(utterance);
-
-      // Hide the alert box after 5 seconds
       setTimeout(() => {
         alertBox.style.display = "none";
       }, 5000);
