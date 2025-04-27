@@ -58,6 +58,9 @@
     const donationText = document.getElementById('donationText');
     const donationSound = document.getElementById('donationSound');
 
+    // Set the volume of the sound (quiet)
+    donationSound.volume = 0.2; // Set the volume to 20% (adjust as needed)
+
     database.ref("donations").on("child_added", (snapshot) => {
       const data = snapshot.val();
       
@@ -86,7 +89,7 @@
       // Speak the donation text after the sound finishes
       setTimeout(() => {
         speechSynthesis.speak(utterance);
-      }, 3000); // Wait for 2 seconds (same duration as donation sound)
+      }, 3000); // Wait for 3 seconds (same duration as donation sound)
 
       // Hide the alert box after 5 seconds
       setTimeout(() => {
