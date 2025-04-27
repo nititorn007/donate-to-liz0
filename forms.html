@@ -137,10 +137,10 @@
         <label class="inputlbl">จำนวนเงิน</label>
       </div>
       <div class="inputarea">
-        <input type="text" name="text" class="input" placeholder=" ">
-        <label class="inputlbl">ข้อความโดเนท</label>
+        <input type="text" name="text" class="input" placeholder=" " maxlength="250">
+        <label class="inputlbl">ข้อความโดเนท (สูงสุด 250 ตัวอักษร)</label>
       </div>
-      <input type="submit" value="โดเนท">
+      <input type="submit" value="โดเนท" id="submitButton">
     </form>
   </div>
   <div class="bottom">
@@ -169,12 +169,17 @@
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
+    const submitButton = document.getElementById("submitButton");
+
     document.getElementById('donation-form').addEventListener('submit', function(e) {
       e.preventDefault();
 
       const name = e.target.name.value;
       const amount = parseFloat(e.target.amount.value);
       const text = e.target.text.value;
+
+      // Disable the submit button for 1 minute (cooldown)
+      submitButton.disabled = true;
 
       push(ref(database, 'donations'), {
         name,
@@ -185,6 +190,11 @@
       .then(() => {
         alert('ขอบคุณสำหรับการโดเนท!');
         e.target.reset();
+
+        // Re-enable the submit button after 1 minute (60000ms)
+        setTimeout(() => {
+          submitButton.disabled = false;
+        }, 60000); // 1 minute cooldown
       })
       .catch((err) => {
         console.error(err);
