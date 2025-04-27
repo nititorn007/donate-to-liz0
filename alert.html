@@ -32,6 +32,10 @@
   <!-- Firebase CDN (compat version for OBS) -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+
+  <!-- Audio element (เสียงแจ้งเตือน) -->
+  <audio id="donationSound" src="https://cdn.pixabay.com/audio/2021/08/09/audio_f6f942b1d8.mp3"></audio>
+
   <script>
     // Firebase config
     const firebaseConfig = {
@@ -50,15 +54,41 @@
 
     const alertBox = document.getElementById('alertBox');
     const donationText = document.getElementById('donationText');
+    const donationSound = document.getElementById('donationSound');
 
-    database.ref("donations").on("child_added", (snapshot) => {
-      const data = snapshot.val();
+    // Queue
+    let donationQueue = [];
+    let isPlaying = false;
+
+    function playNextDonation() {
+      if (donationQueue.length === 0) {
+        isPlaying = false;
+        return;
+      }
+
+      isPlaying = true;
+      const data = donationQueue.shift(); // เอาอันแรกออกมา
+
       donationText.innerText = `🤑💰💹 ${data.name} โดเนท ${data.amount} บาท\n"${data.text || ''}"`;
       alertBox.style.display = "block";
+      donationSound.currentTime = 0;
+      donationSound.play();
 
       setTimeout(() => {
         alertBox.style.display = "none";
-      }, 5000);
+        // หลังจากแสดงผลเสร็จ เรียกตัวเองต่อ
+        playNextDonation();
+      }, 5000); // เวลาโชว์ 5 วิ
+    }
+
+    // ฟังข้อมูลใหม่
+    database.ref("donations").on("child_added", (snapshot) => {
+      const data = snapshot.val();
+      donationQueue.push(data);
+
+      if (!isPlaying) {
+        playNextDonation();
+      }
     });
   </script>
 </body>
