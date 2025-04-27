@@ -78,34 +78,25 @@
       // Wait for the donation sound to finish (2 seconds), then start TTS
       donationSound.onended = function() {
         // Function to speak the donation message using TTS
-        if (!isSpeaking) {
-          isSpeaking = true;
+        const utterance = new SpeechSynthesisUtterance(donationMessage);
+        utterance.lang = 'th-TH'; // Set language to Thai
+        utterance.rate = 1.0; // Speed of speech
 
-          const utterance = new SpeechSynthesisUtterance(donationMessage);
-          utterance.lang = 'th-TH'; // Set language to Thai
-          utterance.rate = 1.0; // Speed of speech
+        // Handle TTS errors
+        utterance.onerror = (event) => {
+          console.error("Speech synthesis error:", event.error);
+          alert("Sorry, speech synthesis failed.");
+        };
 
-          // Handle TTS errors
-          utterance.onerror = (event) => {
-            console.error("Speech synthesis error:", event.error);
-            alert("Sorry, speech synthesis failed.");
-          };
+        speechSynthesis.speak(utterance);
 
-          speechSynthesis.speak(utterance);
-
-          // Wait until TTS finishes before hiding the alert box
-          utterance.onend = () => {
-            setTimeout(() => {
-              alertBox.style.display = "none";
-              isSpeaking = false;  // Allow next TTS message to be spoken
-            }, 5000);  // Keep the alert box visible for 5 seconds after TTS finishes
-          };
-        } else {
-          // If TTS is speaking, delay the display of new donation
+        // Wait until TTS finishes before hiding the alert box
+        utterance.onend = () => {
           setTimeout(() => {
             alertBox.style.display = "none";
-          }, 5000);  // Match this delay with the length of your TTS
-        }
+            isSpeaking = false;  // Allow next TTS message to be spoken
+          }, 5000);  // Keep the alert box visible for 5 seconds after TTS finishes
+        };
       };
     });
   </script>
