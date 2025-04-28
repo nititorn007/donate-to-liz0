@@ -59,7 +59,7 @@
       border: 2px solid rgb(255, 255, 255);
       border-radius: 10px;
       outline: none;
-      color: mintcream;
+      color: rgb(2, 33, 14);
       transition: 0.3s ease-in-out;
       z-index: 1;
     }
@@ -67,7 +67,7 @@
       font-size: 1.6em;
       position: absolute;
       top: 30%;
-      color: rgb(255, 255, 255);
+      color: rgb(33, 29, 16);
       padding: 0 20px;
       margin: 0 20px;
       background-color: transparent;
@@ -75,12 +75,13 @@
       transition: 0.3s ease;
       pointer-events: none;
     }
-    .input:focus {
-      border: 3px solid mintcream;
+    .input:focus,.input:not(:placeholder-shown) {
+      border: 3px solid rgb(197, 245, 234);
+      background-color: rgb(197, 245, 234);
     }
     .input:focus + .inputlbl,
     .input:not(:placeholder-shown) + .inputlbl {
-      color: mintcream;
+      color: rgb(4, 167, 118);
       height: 30px;
       line-height: 30px;
       background-color: black;
@@ -128,11 +129,12 @@
       font-size: 1.5em;
       margin-top: 20px;
     }
+  
   </style>
 </head>
 <body>
   <div class="form-container">
-    <h1>บริจาคให้ LiZ0</h1>
+    <h1>บริจาคให้ LiZ0🤑</h1>
     <form id="donation-form">
       <div class="inputarea">
         <input type="text" name="name" class="input" placeholder=" " required>
