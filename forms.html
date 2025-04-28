@@ -177,50 +177,72 @@
     const database = getDatabase(app);
 
     const submitButton = document.getElementById("submitButton");
-    const cooldownLabel = document.getElementById("cooldownLabel");
-    const countdownDisplay = document.getElementById("countdown");
+const cooldownLabel = document.getElementById("cooldownLabel");
+const countdownDisplay = document.getElementById("countdown");
+const COOLDOWN_DURATION = 60; // Cooldown 60 วินาที
 
-    document.getElementById('donation-form').addEventListener('submit', function(e) {
-      e.preventDefault();
+// ฟังก์ชันเริ่มนับถอยหลัง
+function startCooldown(secondsLeft) {
+  submitButton.disabled = true;
+  cooldownLabel.style.display = "block";
+  countdownDisplay.textContent = `${secondsLeft}s`;
 
-      const name = e.target.name.value;
-      const amount = parseFloat(e.target.amount.value);
-      const text = e.target.text.value;
+  const countdownInterval = setInterval(() => {
+    secondsLeft--;
+    countdownDisplay.textContent = `${secondsLeft}s`;
 
-      // Disable the submit button and show cooldown label
-      submitButton.disabled = true;
-      cooldownLabel.style.display = "block";
+    if (secondsLeft <= 0) {
+      clearInterval(countdownInterval);
+      submitButton.disabled = false;
+      cooldownLabel.style.display = "none";
+      localStorage.removeItem('cooldownEndTime'); // ลบ cooldown ออกจาก localStorage
+    }
+  }, 1000);
+}
 
-      let cooldownTime = 60; // 1 minute cooldown in seconds
-      countdownDisplay.textContent = `${cooldownTime}s`;
+// ตอนโหลดเว็บ เช็กว่าเคยมี cooldown มั้ย
+window.addEventListener('load', () => {
+  const cooldownEndTime = localStorage.getItem('cooldownEndTime');
+  if (cooldownEndTime) {
+    const now = Date.now();
+    const secondsLeft = Math.floor((cooldownEndTime - now) / 1000);
+    if (secondsLeft > 0) {
+      startCooldown(secondsLeft);
+    } else {
+      localStorage.removeItem('cooldownEndTime');
+    }
+  }
+});
 
-      const countdownInterval = setInterval(() => {
-        cooldownTime--;
-        countdownDisplay.textContent = `${cooldownTime}s`;
+document.getElementById('donation-form').addEventListener('submit', function(e) {
+  e.preventDefault();
 
-        if (cooldownTime <= 0) {
-          clearInterval(countdownInterval);
-          submitButton.disabled = false;
-          cooldownLabel.style.display = "none";
-        }
-      }, 1000); // Update every second
+  const name = e.target.name.value;
+  const amount = parseFloat(e.target.amount.value);
+  const text = e.target.text.value;
 
-      // Push the donation data to Firebase
-      push(ref(database, 'donations'), {
-        name,
-        amount,
-        text,
-        timestamp: Date.now()
-      })
-      .then(() => {
-        alert('ขอบคุณสำหรับการโดเนท!');
-        e.target.reset();
-      })
-      .catch((err) => {
-        console.error(err);
-        alert('เกิดข้อผิดพลาด ลองใหม่อีกครั้ง');
-      });
-    });
+  // เริ่ม cooldown
+  const cooldownEndTime = Date.now() + (COOLDOWN_DURATION * 1000);
+  localStorage.setItem('cooldownEndTime', cooldownEndTime);
+  startCooldown(COOLDOWN_DURATION);
+
+  // Push ข้อมูลเข้า Firebase
+  push(ref(database, 'donations'), {
+    name,
+    amount,
+    text,
+    timestamp: Date.now()
+  })
+  .then(() => {
+    alert('ขอบคุณสำหรับการโดเนท!');
+    e.target.reset();
+  })
+  .catch((err) => {
+    console.error(err);
+    alert('เกิดข้อผิดพลาด ลองใหม่อีกครั้ง');
+  });
+});
+
   </script>
 </body>
 </html>
