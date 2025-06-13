@@ -1,0 +1,29 @@
+body {
+      margin: 0;
+      background: transparent;
+      overflow: hidden;
+    }
+    .alert-box {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.8);
+      color: white;
+      font-size: 24px;
+      padding: 20px 30px;
+      border-radius: 15px;
+      display: none;
+      font-family: sans-serif;
+      text-align: center;
+      white-space: pre-line;
+      max-width: 80%;
+      box-shadow: 0 0 20px rgba(0,255,200,0.5);
+      border: 2px solid rgba(0,255,200,0.3);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 20px rgba(0,255,200,0.5); }
+      50% { box-shadow: 0 0 30px rgba(0,255,200,0.8); }
+      100% { box-shadow: 0 0 20px rgba(0,255,200,0.5); }
+    }
