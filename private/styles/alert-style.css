@@ -1,0 +1,19 @@
+body {
+      margin: 0;
+      background: transparent;
+    }
+    .alert-box {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.8);
+      color: white;
+      font-size: 24px;
+      padding: 20px 30px;
+      border-radius: 15px;
+      display: none;
+      font-family: sans-serif;
+      text-align: center;
+      white-space: pre-line;
+    }
