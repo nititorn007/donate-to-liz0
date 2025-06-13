@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donation to LiZ0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Itim&family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+  <style>
+    .sarabun-semibold {
+      font-family: "Sarabun", sans-serif;
+      font-weight: 600;
+      font-style: normal;
+    }
+    * {
+      font-family: "Itim", cursive;
+      font-weight: 400;
+      font-style: normal;
+    }
+    body {
+      background-color: #0a0a0a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, #0d2e26 0%, #000 90%);
+      z-index: -1;
+      animation: bgPulse 15s infinite alternate;
+    }
+    @keyframes bgPulse {
+      0% { background: radial-gradient(circle at center, #0d2e26 0%, #000 90%); }
+      50% { background: radial-gradient(circle at center, #0d3b33 0%, #000 90%); }
+      100% { background: radial-gradient(circle at center, #0d1e26 0%, #000 90%); }
+    }
+    .form-container {
+      background: rgba(0, 30, 24, 0.4);
+      backdrop-filter: blur(20px);
+      border-radius: 8px;
+      padding: 40px;
+      box-shadow: 0 8px 32px rgba(0, 180, 150, 0.15),
+                  0 0 0 2px rgba(0, 100, 200, 0.3);
+      width: 680px;
+      max-width: 90%;
+      border: 1px solid rgba(0, 120, 180, 0.2);
+      position: relative;
+      overflow: hidden;
+      animation: containerGlow 8s infinite alternate;
+    }
+    @keyframes containerGlow {
+      0% { box-shadow: 0 8px 32px rgba(0, 180, 150, 0.15), 0 0 0 2px rgba(0, 100, 200, 0.3); }
+      50% { box-shadow: 0 8px 32px rgba(0, 150, 200, 0.2), 0 0 0 2px rgba(0, 120, 180, 0.4); }
+      100% { box-shadow: 0 8px 32px rgba(0, 120, 180, 0.25), 0 0 0 2px rgba(0, 150, 200, 0.35); }
+    }
+    .form-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, 
+                  rgba(0, 80, 120, 0) 0%, 
+                  rgba(0, 180, 220, 0.8) 50%, 
+                  rgba(0, 80, 120, 0) 100%);
+      animation: topBarFlow 6s infinite linear;
+    }
+    @keyframes topBarFlow {
+      0% { background-position-x: -200%; }
+      100% { background-position-x: 200%; }
+    }
+    h1 {
+      color: #00c0a0;
+      text-align: center;
+      margin-bottom: 40px;
+      text-shadow: 0 0 15px rgba(0, 180, 150, 0.4);
+      font-size: 2.5em;
+      letter-spacing: 1px;
+      animation: titleColorShift 10s infinite alternate;
+    }
+    @keyframes titleColorShift {
+      0% { color: #00c0a0; text-shadow: 0 0 15px rgba(0, 180, 150, 0.4); }
+      50% { color: #00a0c0; text-shadow: 0 0 15px rgba(0, 150, 200, 0.4); }
+      100% { color: #00c0b0; text-shadow: 0 0 15px rgba(0, 180, 180, 0.4); }
+    }
+    .inputarea {
+      position: relative;
+      height: 80px;
+      margin-bottom: 30px;
+    }
+    .input {
+      width: 90%;
+      font-size: 1.8em;
+      line-height: 80px;
+      padding: 0 30px;
+      position: absolute;
+      background-color: rgba(0, 20, 15, 0.6);
+      border: 2px solid #005050;
+      border-radius: 8px;
+      outline: none;
+      color: #00d0b0;
+      transition: all 0.3s ease-in-out;
+      z-index: 1;
+    }
+    .inputlbl {
+      font-size: 1.6em;
+      position: absolute;
+      top: 30%;
+      color: #008080;
+      padding: 0 20px;
+      margin: 0 20px;
+      background-color: transparent;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    .input:focus,.input:not(:placeholder-shown) {
+      border: 2px solid #00c0c0;
+      background-color: rgba(0, 30, 30, 0.7);
+      box-shadow: 0 0 20px rgba(0, 180, 180, 0.3);
+    }
+    .input:focus + .inputlbl,
+    .input:not(:placeholder-shown) + .inputlbl {
+      color: #00c0c0;
+      height: 30px;
+      line-height: 30px;
+      background-color: #001010;
+      transform: translate(-10px, -40px) scale(0.85);
+      z-index: 2;
+      text-shadow: 0 0 8px rgba(0, 180, 180, 0.5);
+    }
+    input[type="submit"] {
+      width: 100%;
+      padding: 20px;
+      font-size: 1.8em;
+      border-radius: 8px;
+      border: none;
+      background: linear-gradient(135deg, #004040 0%, #006880 50%, #004040 100%);
+      color: #e6f7ff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: bold;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+      box-shadow: 0 4px 20px rgba(0, 120, 150, 0.4),
+                 0 0 0 1px rgba(0, 150, 180, 0.3),
+                 inset 0 2px 0 rgba(255,255,255,0.1);
+      position: relative;
+      overflow: hidden;
+      animation: buttonColorShift 12s infinite alternate;
+    }
+    @keyframes buttonColorShift {
+      0% { background: linear-gradient(135deg, #004040 0%, #006880 50%, #004040 100%); }
+      50% { background: linear-gradient(135deg, #004050 0%, #008060 50%, #004050 100%); }
+      100% { background: linear-gradient(135deg, #004040 0%, #006880 50%, #004040 100%); }
+    }
+    input[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(0, 150, 180, 0.5),
+                 0 0 0 1px rgba(0, 180, 200, 0.4),
+                 inset 0 2px 0 rgba(255,255,255,0.15);
+    }
+    input[type="submit"]:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 15px rgba(0, 120, 150, 0.4),
+                 0 0 0 1px rgba(0, 150, 180, 0.3),
+                 inset 0 2px 0 rgba(255,255,255,0.1);
+    }
+    .bottom {
+      position: absolute;
+      top: 6px;
+      width: 100%;
+      backdrop-filter: blur(10px);
+      background-color: rgba(0, 15, 20, 0.6);
+      border-bottom: 1px solid rgba(0, 100, 150, 0.3);
+    }
+    .readme {
+      color: #00c0a0;
+      animation: textColorFlow 8s infinite alternate;
+      padding: 10px 0;
+    }
+    @keyframes textColorFlow {
+      0% { color: #00c0a0; }
+      33% { color: #00a0c0; }
+      66% { color: #00c0c0; }
+      100% { color: #00c0a0; }
+    }
+    .corner-decoration {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border: 2px solid #00c0a0;
+      opacity: 0.7;
+      pointer-events: none;
+      animation: cornerColorShift 10s infinite alternate;
+    }
+    @keyframes cornerColorShift {
+      0% { border-color: #00c0a0; }
+      50% { border-color: #00a0c0; }
+      100% { border-color: #00c0c0; }
+    }
+    .corner-decoration.top-left {
+      top: 10px;
+      left: 10px;
+      border-right: none;
+      border-bottom: none;
+    }
+    .corner-decoration.top-right {
+      top: 10px;
+      right: 10px;
+      border-left: none;
+      border-bottom: none;
+    }
+    .corner-decoration.bottom-left {
+      bottom: 10px;
+      left: 10px;
+      border-right: none;
+      border-top: none;
+    }
+    .corner-decoration.bottom-right {
+      bottom: 10px;
+      right: 10px;
+      border-left: none;
+      border-top: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <div class="corner-decoration top-left"></div>
+    <div class="corner-decoration top-right"></div>
+    <div class="corner-decoration bottom-left"></div>
+    <div class="corner-decoration bottom-right"></div>
+    
+    <h1>บริจาคให้ LiZ0</h1>
+    <form id="donation-form">
+      <div class="inputarea">
+        <input type="text" name="name" class="input" placeholder=" " >
+        <label class="inputlbl">ชื่อ</label>
+      </div>
+      <div class="inputarea">
+        <input type="number" name="amount" class="input" placeholder=" " >
+        <label class="inputlbl">จำนวนเงิน</label>
+      </div>
+      <div class="inputarea">
+        <input type="text" name="text" class="input" placeholder=" ">
+        <label class="inputlbl">ข้อความโดเนท</label>
+      </div>
+      <input type="submit" value="ส่งการบริจาค">
+    </form>
+  </div>
+  <div class="bottom">
+    <div class="readme">
+      <marquee><span class="sarabun-semibold">
+        no limit ชีวิตเกิน100
+      </span></marquee>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCzrFwEPXJx6RsuiJPt48TMd6YwTr8bno0",
+      authDomain: "donation-liz0.firebaseapp.com",
+      databaseURL: "https://donation-liz0-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "donation-liz0",
+      storageBucket: "donation-liz0.firebasestorage.app",
+      messagingSenderId: "471861664830",
+      appId: "1:471861664830:web:cedf5d595ede7046cf456f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    document.getElementById('donation-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = e.target.name.value;
+      const amount = parseFloat(e.target.amount.value);
+      const text = e.target.text.value;
+
+      push(ref(database, 'donations'), {
+        name,
+        amount,
+        text,
+        timestamp: Date.now()
+      })
+      .then(() => {
+        alert('ขอบคุณสำหรับการบริจาค! 🌿');
+        e.target.reset();
+      })
+      .catch((err) => {
+        console.error(err);
+        alert('เกิดข้อผิดพลาด ลองใหม่อีกครั้ง');
+      });
+    });
+  </script>
+</body>
+</html>
