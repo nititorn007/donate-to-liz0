@@ -4,19 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Donation Alert</title>
-  <link rel="stylesheet" href="style/alert-style.css">
+  <link rel="stylesheet" href="styles/alert-style.css">
 </head>
 <body>
-  <div class="alert-box" id="alertBox" role="alert" aria-live="assertive">
+  <div class="alert-box" id="alertBox">
     <p id="donationText"></p>
-  </div>
-
-  <!-- Firebase CDN -->
+      <!-- Firebase CDN (compat version for OBS) -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
+  <!-- Audio element (เสียงแจ้งเตือน) -->
   <audio id="donationSound" src="https://nititorn007.github.io/donate-to-liz0/donatesound.MP3"></audio>
-
-  <script src="scripts/alert-scripts.js"></script>
+<script src="scripts/alert-scripts.js"></script>
+  </div>
 </body>
 </html>
