@@ -1,4 +1,6 @@
-// Firebase config
+
+
+    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyCzrFwEPXJx6RsuiJPt48TMd6YwTr8TMd6YwTr8bno0",
       authDomain: "donation-liz0.firebaseapp.com",
