@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donation to LiZ0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Itim&family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+  <!-- style  -->
+  <link href="https://cdn.jsdelivr.net/gh/YOUR_GITHUB/private-repo@latest/styles/forms-style.css" rel="stylesheet">
+</head>
+<body>
+  <div class="form-container">
+    <h1>บริจาคให้ LiZ0🤑</h1>
+    <form id="donation-form">
+      <div class="inputarea">
+        <input type="text" name="name" class="input" placeholder=" " required>
+        <label class="inputlbl">ชื่อ</label>
+      </div>
+      <div class="inputarea">
+        <input type="number" name="amount" class="input" placeholder=" " required>
+        <label class="inputlbl">จำนวนเงิน</label>
+      </div>
+      <div class="inputarea">
+        <input type="text" name="text" class="input" placeholder=" " maxlength="150">
+        <label class="inputlbl">ข้อความโดเนท (สูงสุด 150 ตัวอักษร)</label>
+      </div>
+      <input type="submit" value="โดเนท" id="submitButton">
+    </form>
+    <div class="cooldown-label" id="cooldownLabel" style="display:none;">กรุณารอสักครู่: <span id="countdown"></span></div>
+  </div>
+  <div class="bottom">
+    <div class="readme">
+      <marquee><span class="sarabun-semibold">
+        This is a fake donation website (no money taken). นี่คือเว็บไซต์การบริจาคปลอม(ไม่เก็บตัง)
+      </span></marquee>
+    </div>
+  </div>
+  <!-- scripts -->
+<script type="module" src="https://cdn.jsdelivr.net/gh/YOUR_GITHUB/private-repo@latest/scripts/forms-scripts.js"></script>
+</body>
+</html>
