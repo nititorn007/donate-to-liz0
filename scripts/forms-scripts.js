@@ -80,3 +80,29 @@ document.getElementById('donation-form').addEventListener('submit', function(e) 
     alert('เกิดข้อผิดพลาด ลองใหม่อีกครั้ง');
   });
 });
+// Emoji Effect
+const emojis = ['🤑', '💰', '💸', '🎉', '💎', '🙏', '❤️', '✨'];
+const emojiPopup = document.createElement('div');
+emojiPopup.className = 'emoji-popup';
+document.body.appendChild(emojiPopup);
+
+document.getElementById('submitButton').addEventListener('mouseenter', () => {
+  // Random emoji with physics-based positioning
+  const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+  emojiPopup.textContent = randomEmoji;
+  
+  // Visual burst effect
+  emojiPopup.style.opacity = '1';
+  emojiPopup.style.transform = 'scale(1.4) translateY(-55px)';
+  emojiPopup.style.animation = 'none';
+  
+  void emojiPopup.offsetWidth; // Trigger reflow
+  
+  // Gentle floating animation
+  emojiPopup.style.animation = 'float 3s ease-in-out infinite';
+  
+  // Auto-fade
+  setTimeout(() => {
+    emojiPopup.style.opacity = '0';
+  }, 1500);
+});
