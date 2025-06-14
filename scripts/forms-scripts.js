@@ -79,6 +79,7 @@ document.getElementById('donation-form').addEventListener('submit', function(e) 
     // Show alert after a short delay
     setTimeout(() => {
       alert('ขอบคุณสำหรับการโดเนท!');
+      popup.style.display = 'none';
     }, 500);
     
     // Auto-close popup after 3 seconds
