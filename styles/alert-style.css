@@ -1,19 +1,31 @@
- body {
-      margin: 0;
-      background: transparent;
-    }
-    .alert-box {
-      position: absolute;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0,0,0,0.8);
-      color: white;
-      font-size: 24px;
-      padding: 20px 30px;
-      border-radius: 15px;
-      display: none;
-      font-family: sans-serif;
-      text-align: center;
-      white-space: pre-line;
-    }
+body {
+  margin: 0;
+  background: transparent;
+}
+
+.alert-box {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 32px; /* Increased from 24px */
+  padding: 15px 25px; /* Adjusted padding to match bigger text */
+  border-radius: 15px;
+  display: none;
+  font-family: sans-serif;
+  text-align: center;
+  white-space: pre-line;
+  /* Ensure the box fits content tightly */
+  display: inline-block;
+  max-width: 90%;
+  word-wrap: break-word;
+  line-height: 1.2; /* Tighter line spacing */
+}
+
+/* Remove default paragraph margins */
+#donationText {
+  margin: 0;
+  padding: 0;
+}
