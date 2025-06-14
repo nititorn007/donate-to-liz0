@@ -78,7 +78,6 @@ function speak(text) {
 function formatDonationMessage(data) {
   return `🤑💰💹 ${data.name} โดเนท ${data.amount} บาท\n"${data.text || ''}"`;
 }
-
 // Initialize the app
 initSpeechSynthesis().then(() => {
   database.ref("donations").limitToLast(1).once("child_added", (snapshot) => {
@@ -92,6 +91,14 @@ initSpeechSynthesis().then(() => {
     }
 
     const data = snapshot.val();
+    
+    // ===== ADD THIS VALIDATION CHECK =====
+    if (!data || !data.name || !data.amount) {
+      console.log("Skipping - invalid donation data:", data);
+      return;
+    }
+    // ===== END OF ADDITION =====
+
     const donationMessage = formatDonationMessage(data);
     donationText.innerText = donationMessage;
 
