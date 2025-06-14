@@ -72,13 +72,31 @@ document.getElementById('donation-form').addEventListener('submit', function(e) 
     timestamp: Date.now()
   })
   .then(() => {
-    alert('ขอบคุณสำหรับการโดเนท!');
+    // Show popup image
+    const popup = document.getElementById('imagePopup');
+    popup.style.display = 'flex';
+    
+    // Show alert after a short delay
+    setTimeout(() => {
+      alert('ขอบคุณสำหรับการโดเนท!');
+    }, 500);
+    
+    // Auto-close popup after 3 seconds
+    setTimeout(() => {
+      popup.style.display = 'none';
+    }, 3000);
+    
     e.target.reset();
   })
   .catch((err) => {
     console.error(err);
     alert('เกิดข้อผิดพลาด ลองใหม่อีกครั้ง');
   });
+});
+
+// Close popup when clicking anywhere
+document.getElementById('imagePopup').addEventListener('click', function() {
+  this.style.display = 'none';
 });
 // Emoji Effect
 const emojis = ['🤑', '💰', '💸', '🎉', '💎', '🙏', '❤️', '✨'];
