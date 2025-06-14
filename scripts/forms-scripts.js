@@ -74,9 +74,9 @@ document.getElementById('donation-form').addEventListener('submit', function(e) 
   .then(() => {
     // Array of 3 image URLs - REPLACE THESE WITH YOUR IMAGE PATHS
     const randomImages = [
-      'https://example.com/image1.jpg',
-      'https://example.com/image2.jpg',
-      'https://example.com/image3.jpg'
+      'http://nititorn007.github.io/donate-to-liz0/assets/puth-go-crazy.jpg',
+      'http://nititorn007.github.io/donate-to-liz0/assets/put-smile.jpg',
+      'http://nititorn007.github.io/donate-to-liz0/assets/put-go-crazy.jpg'
     ];
     
     // Get random image
