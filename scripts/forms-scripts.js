@@ -72,8 +72,19 @@ document.getElementById('donation-form').addEventListener('submit', function(e) 
     timestamp: Date.now()
   })
   .then(() => {
-    // Show popup image
+    // Array of 3 image URLs - REPLACE THESE WITH YOUR IMAGE PATHS
+    const randomImages = [
+      'https://example.com/image1.jpg',
+      'https://example.com/image2.jpg',
+      'https://example.com/image3.jpg'
+    ];
+    
+    // Get random image
+    const randomImage = randomImages[Math.floor(Math.random() * randomImages.length)];
+    
+    // Set image source and show popup
     const popup = document.getElementById('imagePopup');
+    document.getElementById('popupRandomImage').src = randomImage;
     popup.style.display = 'flex';
     
     // Show alert after a short delay
@@ -82,7 +93,7 @@ document.getElementById('donation-form').addEventListener('submit', function(e) 
       popup.style.display = 'none';
     }, 500);
     
-    // Auto-close popup after 3 seconds
+    // Auto-close after 3 seconds (fallback)
     setTimeout(() => {
       popup.style.display = 'none';
     }, 3000);
