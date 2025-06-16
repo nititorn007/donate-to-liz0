@@ -26,7 +26,7 @@ const ttsConfig = {
   lang: 'th-TH'
 };
 
-donationSound.volume = 0.2;
+donationSound.volume = 1;
 
 let isFirstLoad = true;
 let lastKey = null;
