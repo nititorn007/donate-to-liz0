@@ -76,7 +76,7 @@ document.getElementById('donation-form').addEventListener('submit', function(e) 
     const randomImages = [
       'http://nititorn007.github.io/donate-to-liz0/assets/puth-go-crazy.jpg',
       'http://nititorn007.github.io/donate-to-liz0/assets/put-smile.jpg',
-      'http://nititorn007.github.io/donate-to-liz0/assets/put-go-crazy.jpg'
+      'http://nititorn007.github.io/donate-to-liz0/assets/puth-bla.jpg'
     ];
     
     // Get random image
