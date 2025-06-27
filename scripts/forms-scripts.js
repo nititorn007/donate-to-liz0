@@ -15,124 +15,138 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase
     const database = getDatabase(app);
 
     const submitButton = document.getElementById("submitButton");
-const cooldownLabel = document.getElementById("cooldownLabel");
-const countdownDisplay = document.getElementById("countdown");
-const COOLDOWN_DURATION = 60; // Cooldown 60 วินาที
+    const cooldownLabel = document.getElementById("cooldownLabel");
+    const countdownDisplay = document.getElementById("countdown");
+    const COOLDOWN_DURATION = 60;
 
-// ฟังก์ชันเริ่มนับถอยหลัง
-function startCooldown(secondsLeft) {
-  submitButton.disabled = true;
-  cooldownLabel.style.display = "block";
-  countdownDisplay.textContent = `${secondsLeft}s`;
+    function startCooldown(secondsLeft) {
+      submitButton.disabled = true;
+      cooldownLabel.style.display = "block";
+      countdownDisplay.textContent = `${secondsLeft}s`;
 
-  const countdownInterval = setInterval(() => {
-    secondsLeft--;
-    countdownDisplay.textContent = `${secondsLeft}s`;
+      const countdownInterval = setInterval(() => {
+        secondsLeft--;
+        countdownDisplay.textContent = `${secondsLeft}s`;
 
-    if (secondsLeft <= 0) {
-      clearInterval(countdownInterval);
-      submitButton.disabled = false;
-      cooldownLabel.style.display = "none";
-      localStorage.removeItem('cooldownEndTime'); // ลบ cooldown ออกจาก localStorage
+        if (secondsLeft <= 0) {
+          clearInterval(countdownInterval);
+          submitButton.disabled = false;
+          cooldownLabel.style.display = "none";
+          localStorage.removeItem('cooldownEndTime');
+        }
+      }, 1000);
     }
-  }, 1000);
-}
 
-// ตอนโหลดเว็บ เช็กว่าเคยมี cooldown มั้ย
-window.addEventListener('load', () => {
-  const cooldownEndTime = localStorage.getItem('cooldownEndTime');
-  if (cooldownEndTime) {
-    const now = Date.now();
-    const secondsLeft = Math.floor((cooldownEndTime - now) / 1000);
-    if (secondsLeft > 0) {
-      startCooldown(secondsLeft);
-    } else {
-      localStorage.removeItem('cooldownEndTime');
-    }
-  }
-});
+    window.addEventListener('load', () => {
+      const cooldownEndTime = localStorage.getItem('cooldownEndTime');
+      if (cooldownEndTime) {
+        const now = Date.now();
+        const secondsLeft = Math.floor((cooldownEndTime - now) / 1000);
+        if (secondsLeft > 0) {
+          startCooldown(secondsLeft);
+        } else {
+          localStorage.removeItem('cooldownEndTime');
+        }
+      }
+    });
 
-document.getElementById('donation-form').addEventListener('submit', function(e) {
-  e.preventDefault();
+    document.getElementById('donation-form').addEventListener('submit', function(e) {
+      e.preventDefault();
 
-  const name = e.target.name.value;
-  const amount = parseFloat(e.target.amount.value);
-  const text = e.target.text.value;
+      const name = e.target.name.value;
+      const amount = parseFloat(e.target.amount.value);
+      const text = e.target.text.value;
 
-  // เริ่ม cooldown
-  const cooldownEndTime = Date.now() + (COOLDOWN_DURATION * 1000);
-  localStorage.setItem('cooldownEndTime', cooldownEndTime);
-  startCooldown(COOLDOWN_DURATION);
+      const cooldownEndTime = Date.now() + (COOLDOWN_DURATION * 1000);
+      localStorage.setItem('cooldownEndTime', cooldownEndTime);
+      startCooldown(COOLDOWN_DURATION);
 
-  // Push ข้อมูลเข้า Firebase
-  push(ref(database, 'donations'), {
-    name,
-    amount,
-    text,
-    timestamp: Date.now()
-  })
-  .then(() => {
-    // Array of 3 image URLs - REPLACE THESE WITH YOUR IMAGE PATHS
-    const randomImages = [
-      'http://nititorn007.github.io/donate-to-liz0/assets/puth-go-crazy.jpg',
-      'http://nititorn007.github.io/donate-to-liz0/assets/put-smile.jpg',
-      'http://nititorn007.github.io/donate-to-liz0/assets/puth-bla.jpg'
-    ];
-    
-    // Get random image
-    const randomImage = randomImages[Math.floor(Math.random() * randomImages.length)];
-    
-    // Set image source and show popup
-    const popup = document.getElementById('imagePopup');
-    document.getElementById('popupRandomImage').src = randomImage;
-    popup.style.display = 'flex';
-    
-    // Show alert after a short delay
-    setTimeout(() => {
-      alert('ขอบคุณสำหรับการโดเนท!');
-      popup.style.display = 'none';
-    }, 500);
-    
-    // Auto-close after 3 seconds (fallback)
-    setTimeout(() => {
-      popup.style.display = 'none';
-    }, 3000);
-    
-    e.target.reset();
-  })
-  .catch((err) => {
-    console.error(err);
-    alert('เกิดข้อผิดพลาด ลองใหม่อีกครั้ง');
-  });
-});
+      push(ref(database, 'donations'), {
+        name,
+        amount,
+        text,
+        timestamp: Date.now()
+      })
+      .then(() => {
+        const randomImages = [
+          'http://nititorn007.github.io/donate-to-liz0/assets/puth-go-crazy.jpg',
+          'http://nititorn007.github.io/donate-to-liz0/assets/put-smile.jpg',
+          'http://nititorn007.github.io/donate-to-liz0/assets/puth-bla.jpg'
+        ];
+        
+        const randomImage = randomImages[Math.floor(Math.random() * randomImages.length)];
+        
+        const popup = document.getElementById('imagePopup');
+        const customAlert = document.getElementById('customAlert');
+        document.getElementById('popupRandomImage').src = randomImage;
+        popup.classList.remove('hide');
+        popup.classList.add('show');
+        
+        setTimeout(() => {
+          customAlert.classList.remove('hide');
+          customAlert.classList.add('show');
+        }, 500);
+        
+        setTimeout(() => {
+          customAlert.classList.remove('show');
+          customAlert.classList.add('hide');
+          setTimeout(() => {
+            customAlert.style.display = 'none';
+            popup.classList.remove('show');
+            popup.classList.add('hide');
+            setTimeout(() => {
+              popup.style.display = 'none';
+            }, 400);
+          }, 400);
+        }, 3000);
+        
+        e.target.reset();
+      })
+      .catch((err) => {
+        console.error(err);
+        const customAlert = document.getElementById('customAlert');
+        customAlert.textContent = 'เกิดข้อผิดพลาด ลองใหม่อีกครั้ง';
+        customAlert.classList.remove('hide');
+        customAlert.classList.add('show');
+        setTimeout(() => {
+          customAlert.classList.remove('show');
+          customAlert.classList.add('hide');
+          setTimeout(() => {
+            customAlert.style.display = 'none';
+          }, 400);
+        }, 2000);
+      });
+    });
 
-// Close popup when clicking anywhere
-document.getElementById('imagePopup').addEventListener('click', function() {
-  this.style.display = 'none';
-});
-// Emoji Effect
-const emojis = ['🤑', '💰', '💸', '🎉', '💎', '🙏', '❤️', '✨'];
-const emojiPopup = document.createElement('div');
-emojiPopup.className = 'emoji-popup';
-document.body.appendChild(emojiPopup);
+    document.getElementById('imagePopup').addEventListener('click', function() {
+      this.classList.remove('show');
+      this.classList.add('hide');
+      document.getElementById('customAlert').classList.remove('show');
+      document.getElementById('customAlert').classList.add('hide');
+      setTimeout(() => {
+        this.style.display = 'none';
+        document.getElementById('customAlert').style.display = 'none';
+      }, 400);
+    });
 
-document.getElementById('submitButton').addEventListener('mouseenter', () => {
-  // Random emoji with physics-based positioning
-  const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
-  emojiPopup.textContent = randomEmoji;
-  
-  // Visual burst effect
-  emojiPopup.style.opacity = '1';
-  emojiPopup.style.transform = 'scale(1.4) translateY(-55px)';
-  emojiPopup.style.animation = 'none';
-  
-  void emojiPopup.offsetWidth; // Trigger reflow
-  
-  // Gentle floating animation
-  emojiPopup.style.animation = 'float 3s ease-in-out infinite';
-  
-  // Auto-fade
-  setTimeout(() => {
-    emojiPopup.style.opacity = '0';
-  }, 1500);
-});
+    const emojis = ['🤑', '💰', '💸', '🎉', '💎', '🙏', '❤️', '✨'];
+    const emojiPopup = document.createElement('div');
+    emojiPopup.className = 'emoji-popup';
+    document.body.appendChild(emojiPopup);
+
+    document.getElementById('submitButton').addEventListener('mouseenter', () => {
+      const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+      emojiPopup.textContent = randomEmoji;
+      
+      emojiPopup.style.opacity = '1';
+      emojiPopup.style.transform = 'scale(1) translateY(-30px)';
+      emojiPopup.style.animation = 'none';
+      
+      void emojiPopup.offsetWidth;
+      
+      emojiPopup.style.animation = 'float 3s ease-in-out infinite';
+      
+      setTimeout(() => {
+        emojiPopup.style.opacity = '0';
+      }, 1500);
+    });
