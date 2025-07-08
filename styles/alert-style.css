@@ -1,50 +1,51 @@
 body {
-      margin: 0;
-      background: transparent;
-      font-family: 'Roboto', sans-serif;
-    }
+  margin: 0;
+  background: transparent;
+  font-family: 'Roboto', sans-serif;
+}
 
-    .alert-box {
-      position: absolute;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-      color: #ffffff;
-      font-size: clamp(24px, 4vw, 36px);
-      padding: 20px 30px;
-      border-radius: 20px;
-      display: none;
-      text-align: center;
-      white-space: pre-line;
-      max-width: 90%;
-      word-wrap: break-word;
-      line-height: 1.4;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
+.alert-box {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+  color: #ffffff;
+  font-size: clamp(24px, 4vw, 36px);
+  padding: 20px 30px;
+  border-radius: 20px;
+  display: none;
+  text-align: center;
+  white-space: pre-line;
+  max-width: 90%;
+  word-wrap: break-word;
+  line-height: 1.4;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
 
-    .alert-box.show {
-      display: inline-block;
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
+.alert-box.show {
+  display: block; /* Align with JS */
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
 
-    .alert-box.hide {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.8);
-    }
+.alert-box.hide {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.8);
+}
 
-    #donationText {
-      margin: 0;
-      padding: 0;
-      font-weight: 500;
-    }
+#donationText {
+  margin: 0;
+  padding: 0;
+  font-weight: 500;
+}
 
-    @media (max-width: 600px) {
-      .alert-box {
-        padding: 15px 20px;
-        font-size: clamp(20px, 3.5vw, 28px);
-      }
-    }
+@media (max-width: 600px) {
+  .alert-box {
+    padding: 15px 20px;
+    font-size: clamp(20px, 3.5vw, 28px);
+  }
+}
