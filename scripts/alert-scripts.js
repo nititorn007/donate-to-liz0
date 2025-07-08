@@ -9,21 +9,30 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+try {
+  firebase.initializeApp(firebaseConfig);
+  console.log('Firebase initialized successfully');
+} catch (error) {
+  console.error('Firebase initialization failed:', error);
+}
 const database = firebase.database();
 
 const alertBox = document.getElementById('alertBox');
 const donationText = document.getElementById('donationText');
 const donationSound = document.getElementById('donationSound');
 
-// TTS Configuration with multiple voice options
+if (!alertBox || !donationText || !donationSound) {
+  console.error('DOM elements missing:', { alertBox, donationText, donationSound });
+}
+
+// TTS Configuration
 const ttsConfig = {
   volume: 1,
   rate: 1.0,
   pitch: 1.0,
   lang: 'th-TH',
-  voices: [], // Store available Thai voices
-  currentVoiceIndex: 0 // Track current voice for cycling
+  voices: [],
+  currentVoiceIndex: 0
 };
 
 // Set audio volume
@@ -33,48 +42,50 @@ let isFirstLoad = true;
 let lastKey = null;
 let isAudioUnlocked = false;
 
-// Preload audio to bypass autoplay restrictions
+// Preload audio
 function preloadAudio() {
   return new Promise((resolve) => {
     donationSound.play().then(() => {
       donationSound.pause();
       donationSound.currentTime = 0;
       isAudioUnlocked = true;
-      console.log('Audio preloaded successfully');
+      console.log('Audio preloaded');
       resolve();
     }).catch(error => {
       console.warn('Audio preload failed:', error);
-      resolve(); // Continue even if preload fails
+      resolve();
     });
   });
 }
 
-// Initialize speech synthesis and find Thai voices
+// Initialize speech synthesis
 function initSpeechSynthesis() {
   return new Promise((resolve) => {
     const checkVoices = () => {
-      const voices = speechSynthesis.getVoices();
-      if (voices.length > 0) {
+      const voices = window.speechSynthesis.getVoices();
+      if (voices.length) {
         ttsConfig.voices = voices.filter(voice => voice.lang === 'th-TH' || voice.lang.startsWith('th-'));
-        if (ttsConfig.voices.length === 0) {
-          ttsConfig.voices = [voices[0]]; // Fallback to first available voice
+        if (!ttsConfig.voices.length) {
+          ttsConfig.voices = [voices[0]];
+          ttsConfig.rate = 1.2; // Adjust for fallback voice
+          ttsConfig.pitch = 0.8;
         }
-        console.log('Available Thai voices:', ttsConfig.voices.map(v => v.name));
+        console.log('Available voices:', ttsConfig.voices.map(v => v.name));
         resolve();
       }
     };
     
-    speechSynthesis.onvoiceschanged = checkVoices;
+    window.speechSynthesis.onvoiceschanged = checkVoices;
     checkVoices();
-    setTimeout(resolve, 5000); // Fallback if voices don't load
+    setTimeout(resolve, 5000);
   });
 }
 
-// Speak text with TTS, cycling through voices for variety
+// Speak text
 function speak(text) {
   return new Promise((resolve, reject) => {
-    if (!text || !speechSynthesis || ttsConfig.voices.length === 0) {
-      console.warn('TTS not available or no text provided');
+    if (!text || !window.speechSynthesis || !ttsConfig.voices.length) {
+      console.warn('TTS unavailable');
       resolve();
       return;
     }
@@ -87,17 +98,16 @@ function speak(text) {
     utterance.voice = ttsConfig.voices[ttsConfig.currentVoiceIndex];
     
     utterance.onend = () => {
-      // Cycle to next voice for the next donation
       ttsConfig.currentVoiceIndex = (ttsConfig.currentVoiceIndex + 1) % ttsConfig.voices.length;
       console.log('Next voice index:', ttsConfig.currentVoiceIndex);
       resolve();
     };
     utterance.onerror = (event) => {
-      console.error("Speech synthesis error:", event.error);
+      console.error('TTS error:', event.error);
       reject(event.error);
     };
     
-    speechSynthesis.speak(utterance);
+    window.speechSynthesis.speak(utterance);
   });
 }
 
@@ -106,55 +116,56 @@ function formatDonationMessage(data) {
   return `🤑💰💹 ${data.name} โดเนท ${data.amount} บาท\n"${data.text || ''}"`;
 }
 
-// Play donation sound with error handling
+// Play donation sound
 async function playDonationSound() {
   try {
-    if (!isAudioUnlocked) {
-      await preloadAudio();
-    }
+    if (!isAudioUnlocked) await preloadAudio();
     donationSound.currentTime = 0;
     await donationSound.play();
-    console.log('Donation sound played successfully');
+    console.log('Sound played');
   } catch (error) {
-    console.error('Error playing donation sound:', error);
+    console.error('Sound error:', error);
   }
 }
 
-// Show and hide alert box
+// Show alert box
 function showAlertBox(message) {
+  if (!alertBox || !donationText) {
+    console.error('Cannot show alert: elements missing');
+    return;
+  }
   donationText.innerText = message;
   alertBox.style.display = 'block';
   alertBox.classList.remove('hide');
   alertBox.classList.add('show');
+  console.log('Alert shown:', message);
 }
 
 // Hide alert box
 function hideAlertBox() {
+  if (!alertBox) return;
   if (alertBox.classList.contains('show')) {
     alertBox.classList.remove('show');
     alertBox.classList.add('hide');
     setTimeout(() => {
       alertBox.style.display = 'none';
+      console.log('Alert hidden');
     }, 500);
   }
 }
 
-// Initialize the app
+// Initialize
 Promise.all([initSpeechSynthesis(), preloadAudio()]).then(() => {
-  // Get the most recent donation to set lastKey
   database.ref("donations").limitToLast(1).once("value", (snapshot) => {
     const data = snapshot.val();
-    if (data) {
-      lastKey = Object.keys(data)[0];
-    }
+    if (data) lastKey = Object.keys(data)[0];
     isFirstLoad = false;
     console.log('Initial lastKey:', lastKey);
   });
 
-  // Listen for new donations
   database.ref("donations").on("child_added", async (snapshot) => {
     if (isFirstLoad || snapshot.key === lastKey) {
-      console.log('Skipping initial or duplicate donation:', snapshot.key);
+      console.log('Skipping:', snapshot.key);
       return;
     }
 
@@ -162,7 +173,7 @@ Promise.all([initSpeechSynthesis(), preloadAudio()]).then(() => {
     lastKey = snapshot.key;
     
     if (!data || !data.name || !data.amount) {
-      console.log("Skipping - invalid donation data:", data);
+      console.log('Invalid data:', data);
       return;
     }
 
@@ -175,7 +186,7 @@ Promise.all([initSpeechSynthesis(), preloadAudio()]).then(() => {
         try {
           await speak(data.text);
         } catch (error) {
-          console.error("TTS Error:", error);
+          console.error('TTS error:', error);
         }
       }
     }, 3000);
@@ -183,12 +194,10 @@ Promise.all([initSpeechSynthesis(), preloadAudio()]).then(() => {
     setTimeout(hideAlertBox, 10000);
   });
 }).catch(error => {
-  console.error("Initialization failed:", error);
+  console.error('Init failed:', error);
 });
 
-// Unlock audio on first user interaction
+// Unlock audio on click
 document.addEventListener('click', () => {
-  if (!isAudioUnlocked) {
-    preloadAudio();
-  }
+  if (!isAudioUnlocked) preloadAudio();
 }, { once: true });
